@@ -1,5 +1,6 @@
 package com.yeoro.springjwt.config;
 
+import com.yeoro.springjwt.jwt.JWTFilter;
 import com.yeoro.springjwt.jwt.JWTUtil;
 import com.yeoro.springjwt.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,10 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
+
+        //커스텀 JWT 필터 적용
+        http
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 
         //커스텀 로그인 필터 적용
         http
