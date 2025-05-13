@@ -1,5 +1,6 @@
 package com.yeoro.springjwt.config;
 
+import com.yeoro.springjwt.jwt.JWTUtil;
 import com.yeoro.springjwt.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
 
     //AuthenticationManager Bean 등록
     @Bean
@@ -54,7 +56,7 @@ public class SecurityConfig {
 
         //커스텀 로그인 필터 적용
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         //stateless 세션 설정
         http
